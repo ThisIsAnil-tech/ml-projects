@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Evaluation | AI Health</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .nav-link {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s;
+        }
+        .nav-link:hover { color: white; }
+        
+        .eval-dashboard {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .metric-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 1rem 0;
+        }
+        
+        .metric-label {
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-effects">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <a href="index.html" class="nav-link"><i class="fa-solid fa-arrow-left"></i> Back to Diagnosis</a>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fa-solid fa-chart-line"></i>
+                <h1>Model Evaluation</h1>
+            </div>
+            <p class="subtitle">Real-time performance metrics of the ML Ensemble</p>
+        </header>
+
+        <main>
+            <div class="card eval-dashboard">
+                <div class="metric-card">
+                    <div class="metric-label">Ensemble Accuracy</div>
+                    <div class="metric-value" id="accuracyValue">--%</div>
+                    <p style="color:var(--text-secondary)">Overall accuracy of the Voting Classifier on the test dataset.</p>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">Supported Diseases</div>
+                    <div class="metric-value" id="classesValue">--</div>
+                    <p style="color:var(--text-secondary)">Total number of unique health conditions the model can predict.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="evaluation.js"></script>
+</body>
+</html>
