@@ -13,7 +13,6 @@ from explainer import init_explainer, get_shap_values
 app = Flask(__name__)
 CORS(app)
 
-# Load models on startup
 MODEL_DIR = "models"
 MODEL_PATH = os.path.join(MODEL_DIR, "ensemble_pipeline.pkl")
 TFIDF_PATH = os.path.join(MODEL_DIR, "tfidf_vectorizer.pkl")
@@ -29,9 +28,6 @@ def load_models():
             vectorizer = joblib.load(TFIDF_PATH)
             print("Models loaded successfully.")
             
-            # Try to initialize explainer with a small dummy dataset
-            # In a real scenario, we'd save a subset of training data for this
-            # Here we just generate a small dummy matrix for the KernelExplainer init
             dummy_data = ["fever cough headache", "chest pain shortness of breath", "stomach ache vomiting diarrhea"]
             dummy_vec = vectorizer.transform(dummy_data)
             init_explainer(model, vectorizer, dummy_vec)
@@ -53,7 +49,6 @@ def predict():
 
     text = data['symptoms']
     
-    # 1. Emergency Check
     if check_emergency(text):
         return jsonify({
             "status": "emergency",
@@ -61,15 +56,12 @@ def predict():
             "disclaimer": "This is an automated AI response, not a medical diagnosis."
         })
 
-    # 2. NLP Pipeline Extraction
     cleaned_symptoms = extract_symptoms(text)
     
-    # 3. Predict
     try:
         X_vec = vectorizer.transform([cleaned_symptoms])
         probabilities = model.predict_proba(X_vec)[0]
         
-        # Get top 3 predictions
         classes = model.classes_
         top_indices = probabilities.argsort()[-3:][::-1]
         
@@ -83,7 +75,6 @@ def predict():
         top_disease = predictions[0]['disease']
         top_confidence = predictions[0]['confidence']
         
-        # 4. Questioning Engine
         if requires_follow_up(cleaned_symptoms, top_confidence):
             follow_up_q = generate_follow_up_question(top_disease)
             return jsonify({
@@ -91,13 +82,10 @@ def predict():
                 "question": follow_up_q,
                 "current_predictions": predictions
             })
-            
-        # 5. Explainability (SHAP)
-        # We compute SHAP for the top predicted class
+
         top_class_idx = top_indices[0]
         shap_factors = get_shap_values(cleaned_symptoms, top_class_idx)
         
-        # 6. Precautions
         precautions = get_precautions(top_disease)
         
         return jsonify({
@@ -126,7 +114,6 @@ def get_symptoms():
     if vectorizer is None:
         return jsonify({"error": "Model not loaded."}), 500
     try:
-        # Get all features the vectorizer knows
         features = vectorizer.get_feature_names_out().tolist()
         return jsonify(features)
     except Exception as e:

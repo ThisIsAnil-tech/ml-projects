@@ -25,7 +25,6 @@ def train_and_save_model():
     
     df = pd.read_csv(DATA_PATH)
     
-    # We use the 'Symptoms' column as our text feature and 'Disease' as the target
     X = df['Symptoms'].fillna("")
     y = df['Disease']
     

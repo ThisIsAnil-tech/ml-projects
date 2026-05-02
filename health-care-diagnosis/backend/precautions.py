@@ -31,8 +31,6 @@ disease_precautions = {
 }
 
 def get_precautions(disease: str) -> list:
-    """Retrieve precautions for a given disease, or generic advice if not found."""
-    # Attempt to find the disease (case-insensitive mapping might be better, but exact match for now)
     return disease_precautions.get(
         disease, 
         ["Consult a healthcare professional", "Rest and hydrate", "Monitor your symptoms closely"]

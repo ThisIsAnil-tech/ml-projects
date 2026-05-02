@@ -4,7 +4,6 @@ import os
 
 DATA_PATH = "../../datasets/Healthcare.csv"
 
-# Define logical mappings of diseases to their actual symptoms
 disease_symptom_map = {
     "Allergy": ["sneezing", "runny nose", "itchy eyes", "rash", "swelling"],
     "Thyroid Disorder": ["fatigue", "weight gain", "weight loss", "mood swings", "cold intolerance"],
@@ -44,13 +43,10 @@ def generate_logical_dataset(num_records=5000):
     data = []
     
     for i in range(1, num_records + 1):
-        # Pick a random disease
         disease = random.choice(list(disease_symptom_map.keys()))
         
-        # Pick 2-4 core symptoms for this disease
         core_symptoms = random.sample(disease_symptom_map[disease], k=random.randint(2, min(4, len(disease_symptom_map[disease]))))
         
-        # Add 0-1 random noise symptoms
         if random.random() > 0.5:
             noise = random.choice(all_symptoms)
             if noise not in core_symptoms:
@@ -70,7 +66,6 @@ def generate_logical_dataset(num_records=5000):
         
     df = pd.DataFrame(data)
     
-    # Ensure the directory exists
     os.makedirs(os.path.dirname(DATA_PATH), exist_ok=True)
     
     df.to_csv(DATA_PATH, index=False)
