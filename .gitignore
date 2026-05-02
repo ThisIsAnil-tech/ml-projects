@@ -1,20 +1,21 @@
 # Python and Virtual Environments
-__pycache__/
-*.py[cod]
-*$py.class
-venv/
-env/
-.env
-.venv
+**/__pycache__/
+**/*.py[cod]
+**/*$py.class
+**/venv/
+**/env/
+**/.env
+**/.venv
 
 # ML Models and Data
-models/
-datasets/Healthcare.csv
+**/models/
+**/datasets/*.csv
+**/*.pkl
 
 # IDEs
-.vscode/
-.idea/
+**/.vscode/
+**/.idea/
 
 # OS generated files
-.DS_Store
-Thumbs.db
+**/.DS_Store
+**/Thumbs.db
